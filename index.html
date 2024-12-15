@@ -8,12 +8,176 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
     <style>
-        /* نفس الأسلوب السابق */
+        body {
+            font-family: 'Cairo', sans-serif;
+            line-height: 1.8;
+            background-color: #4CAF50; /* اللون الأخضر */
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            direction: rtl;
+            text-align: center;
+        }
+
+        .flag {
+            width: 100%;
+            height: 100px;
+            background-image: url('https://example.com/syrian-revolution-flag.png'); /* علم الثورة */
+            background-size: cover;
+            background-position: center;
+        }
+
+        h1 {
+            font-size: 26px;
+            color: #fff;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+            max-width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .statement-text {
+            margin: 20px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            color: #333;
+            font-size: 18px;
+            text-align: justify;
+            line-height: 1.6;
+        }
+
+        .signature-pad-container {
+            margin: 20px;
+            border: 2px solid #ccc;
+            padding: 10px;
+            display: inline-block;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+        }
+
+        canvas {
+            border: 2px solid #333;
+            width: 100%;
+            height: 200px;
+            background-color: #f0f0f0;
+        }
+
+        .buttons {
+            margin-top: 10px;
+        }
+
+        .buttons button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #d32f2f;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .buttons button:hover {
+            background-color: #b71c1c;
+        }
+
+        .buttons button:focus {
+            outline: none;
+        }
+
+        .buttons button:active {
+            transform: scale(0.98);
+        }
+
+        .name-container {
+            margin-top: 20px;
+        }
+
+        .name-container input {
+            padding: 10px;
+            font-size: 16px;
+            width: 70%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            display: inline-block;
+            text-align: right;
+        }
+
+        .name-container label {
+            font-size: 16px;
+            margin-left: 10px;
+        }
+
+        .signatories-list {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            color: #333;
+            font-size: 18px;
+            text-align: right;
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .signatories-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .signatories-list li {
+            margin-bottom: 10px;
+            padding: 5px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
-    <!-- نفس المحتوى السابق -->
-    
+    <!-- شريط العلم -->
+    <div class="flag"></div>
+
+    <!-- نص البيان -->
+    <h1>طلب شعبي من أهالي محافظة السويداء</h1>
+    <div class="statement-text">
+        <p>نحن الموقعون على هذه الوثيقة:</p>
+        <p>نظراً للتغيير الذي طرأ على ساحة الوطن والمتمثل بسقوط الطاغية بشار الأسد ونظامه الإجرامي, نرى أنه من واجبنا استكمال هذا النصر المؤزر وتنظيف ساحة محافظة السويداء من كل أعوان النظام البائد وتقديمهم للمحاكمة دون تأخير...</p>
+    </div>
+
+    <!-- حقل الاسم الكامل -->
+    <div class="name-container">
+        <label for="name">الاسم الكامل للموقع:</label>
+        <input type="text" id="name" name="name" placeholder="أدخل اسمك الكامل" required>
+    </div>
+
+    <!-- توقيع المستخدم -->
+    <div class="signature-pad-container">
+        <canvas id="signature-pad" width="400" height="200"></canvas>
+        <div class="buttons">
+            <button id="clear">مسح التوقيع</button>
+            <button id="save">حفظ التوقيع</button>
+        </div>
+    </div>
+
+    <!-- قائمة الموقعين -->
+    <div class="signatories-list">
+        <h3>الموقعين على البيان:</h3>
+        <ul id="signatories">
+            <!-- قائمة الموقعين سيتم ملؤها هنا -->
+        </ul>
+    </div>
+
     <script>
         // إعداد Firebase
         const firebaseConfig = {
@@ -26,7 +190,6 @@
             measurementId: "G-MEASUREMENT_ID"
         };
 
-        // تهيئة Firebase
         const app = firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore(app);
 
