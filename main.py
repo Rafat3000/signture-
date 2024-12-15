@@ -5,31 +5,35 @@ app = Flask(__name__)
 
 # إنشاء قاعدة بيانات لتخزين الأسماء والتوقيعات
 def init_db():
-    conn = sqlite3.connect("signatures.db")
-    cursor = conn.cursor()
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS signatures (
-            id INTEGER PRIMARY KEY,
-            name TEXT,
-            signature BLOB
-        )
-    """)
-    conn.commit()
-    conn.close()
+    with sqlite3.connect("signatures.db") as conn:
+        cursor = conn.cursor()
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS signatures (
+                id INTEGER PRIMARY KEY,
+                name TEXT NOT NULL,
+                signature BLOB NOT NULL
+            )
+        """)
 
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
-        name = request.form["name"]
-        signature = request.form["signature"]
-        
+        name = request.form.get("name")
+        signature_file = request.files.get("signature")
+
+        # تحقق من إدخال الحقول
+        if not name or not signature_file:
+            return "الرجاء إدخال الاسم ورفع التوقيع.", 400
+
+        # قراءة ملف التوقيع كـ BLOB
+        signature = signature_file.read()
+
         # حفظ البيانات في قاعدة البيانات
-        conn = sqlite3.connect("signatures.db")
-        cursor = conn.cursor()
-        cursor.execute("INSERT INTO signatures (name, signature) VALUES (?, ?)", (name, signature))
-        conn.commit()
-        conn.close()
-        
+        with sqlite3.connect("signatures.db") as conn:
+            cursor = conn.cursor()
+            cursor.execute("INSERT INTO signatures (name, signature) VALUES (?, ?)", (name, signature))
+            conn.commit()
+
         return redirect(url_for("thank_you"))
 
     return render_template("index.html")
