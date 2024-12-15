@@ -188,6 +188,7 @@
         const canvas = document.getElementById('signature-pad');
         const signaturePad = new SignaturePad(canvas);
         const signatoriesList = document.getElementById('signatories');
+        let signatories = []; // قائمة لتخزين التوقيعات
 
         document.getElementById('clear').addEventListener('click', () => {
             signaturePad.clear();
@@ -201,18 +202,25 @@
                 alert("الرجاء إدخال اسمك الكامل");
             } else {
                 const signatureData = signaturePad.toDataURL();
+                const id = signatories.length + 1; // تعيين id فريد لكل توقيع
 
-                // إضافة التوقيع والاسم إلى قائمة الموقعين
-                const listItem = document.createElement('li');
-                listItem.innerHTML = `<strong>${name}</strong>: <img src="${signatureData}" alt="توقيع" width="100">`;
+                // حفظ التوقيع والاسم في القائمة
+                signatories.push({ id, name, signatureData });
 
-                signatoriesList.appendChild(listItem);
+                // تحديث القائمة في الصفحة
+                updateSignatoriesList();
 
                 // مسح الحقول بعد حفظ التوقيع
                 document.getElementById('name').value = '';
                 signaturePad.clear();
             }
         });
-    </script>
-</body>
-</html>
+
+        // دالة لتحديث قائمة الموقعين
+        function updateSignatoriesList() {
+            signatoriesList.innerHTML = ''; // مسح القائمة الحالية
+            signatories.forEach((signatory) => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `رقم ID: <strong>${signatory.id}</strong> - <strong>${signatory.name}</strong>: <img src="${signatory.signatureData}" alt="توقيع" width="100">`;
+                signatoriesList.appendChild(listItem);
+            });
