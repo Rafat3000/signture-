@@ -114,6 +114,32 @@
             font-size: 16px;
             margin-left: 10px;
         }
+
+        .signatories-list {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            color: #333;
+            font-size: 18px;
+            text-align: right;
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .signatories-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .signatories-list li {
+            margin-bottom: 10px;
+            padding: 5px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
@@ -150,20 +176,41 @@
         </div>
     </div>
 
+    <!-- قائمة الموقعين -->
+    <div class="signatories-list">
+        <h3>الموقعين على البيان:</h3>
+        <ul id="signatories">
+            <!-- قائمة الموقعين سيتم ملؤها هنا -->
+        </ul>
+    </div>
+
     <script>
         const canvas = document.getElementById('signature-pad');
         const signaturePad = new SignaturePad(canvas);
+        const signatoriesList = document.getElementById('signatories');
 
         document.getElementById('clear').addEventListener('click', () => {
             signaturePad.clear();
         });
 
         document.getElementById('save').addEventListener('click', () => {
+            const name = document.getElementById('name').value;
             if (signaturePad.isEmpty()) {
                 alert("الرجاء إضافة توقيع أولاً");
+            } else if (name.trim() === '') {
+                alert("الرجاء إدخال اسمك الكامل");
             } else {
                 const signatureData = signaturePad.toDataURL();
-                console.log("تم حفظ التوقيع:", signatureData); // سيتم هنا إرسال التوقيع إلى السيرفر أو حفظه
+
+                // إضافة التوقيع والاسم إلى قائمة الموقعين
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `<strong>${name}</strong>: <img src="${signatureData}" alt="توقيع" width="100">`;
+
+                signatoriesList.appendChild(listItem);
+
+                // مسح الحقول بعد حفظ التوقيع
+                document.getElementById('name').value = '';
+                signaturePad.clear();
             }
         });
     </script>
