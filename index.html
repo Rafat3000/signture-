@@ -4,191 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>بيان للتوقيع</title>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
     <style>
-        body {
-            font-family: 'Cairo', sans-serif;
-            line-height: 1.8;
-            background-color: #4CAF50; /* اللون الأخضر */
-            color: #fff;
-            margin: 0;
-            padding: 0;
-            direction: rtl;
-            text-align: center;
-        }
-
-        .flag {
-            width: 100%;
-            height: 100px;
-            background-image: url('https://example.com/syrian-revolution-flag.png'); /* علم الثورة */
-            background-size: cover;
-            background-position: center;
-        }
-
-        h1 {
-            font-size: 26px;
-            color: #fff;
-            margin: 30px 0;
-            padding: 20px;
-            background-color: rgba(0, 0, 0, 0.6);
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
-            max-width: 80%;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.6;
-        }
-
-        .statement-text {
-            margin: 20px;
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            color: #333;
-            font-size: 18px;
-            text-align: justify;
-            line-height: 1.6;
-        }
-
-        .signature-pad-container {
-            margin: 20px;
-            border: 2px solid #ccc;
-            padding: 10px;
-            display: inline-block;
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 10px;
-        }
-
-        canvas {
-            border: 2px solid #333;
-            width: 100%;
-            height: 200px;
-            background-color: #f0f0f0;
-        }
-
-        .buttons {
-            margin-top: 10px;
-        }
-
-        .buttons button {
-            padding: 10px 20px;
-            margin: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            background-color: #d32f2f;
-            border: none;
-            color: white;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        .buttons button:hover {
-            background-color: #b71c1c;
-        }
-
-        .buttons button:focus {
-            outline: none;
-        }
-
-        .buttons button:active {
-            transform: scale(0.98);
-        }
-
-        .name-container {
-            margin-top: 20px;
-        }
-
-        .name-container input {
-            padding: 10px;
-            font-size: 16px;
-            width: 70%;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            margin-bottom: 10px;
-            display: inline-block;
-            text-align: right;
-        }
-
-        .name-container label {
-            font-size: 16px;
-            margin-left: 10px;
-        }
-
-        .signatories-list {
-            margin-top: 30px;
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            color: #333;
-            font-size: 18px;
-            text-align: right;
-            max-width: 90%;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .signatories-list ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .signatories-list li {
-            margin-bottom: 10px;
-            padding: 5px;
-            background-color: #f0f0f0;
-            border-radius: 5px;
-        }
+        /* نفس الأسلوب السابق */
     </style>
 </head>
 <body>
-    <!-- شريط العلم -->
-    <div class="flag"></div>
-
-    <!-- نص البيان -->
-    <h1>طلب شعبي من أهالي محافظة السويداء</h1>
-    <div class="statement-text">
-        <p>نحن الموقعون على هذه الوثيقة:</p>
-        <p>نظراً للتغيير الذي طرأ على ساحة الوطن والمتمثل بسقوط الطاغية بشار الأسد ونظامه الإجرامي, نرى أنه من واجبنا استكمال هذا النصر المؤزر وتنظيف ساحة محافظة السويداء من كل أعوان النظام البائد وتقديمهم للمحاكمة دون تأخير, وكشف جرائمهم بحق أهالي الجبل وتعاونهم مع النظام على الإيقاع بأهلنا ضحايا للسجن والتعذيب والتغييب القسري والقتل التعسفي خارج إطار القانون, فضلاً عن التسبب بالطرد من الوظائف والخطف بغرض الفدية المالية وتجارة المخدرات والأعضاء وغيرها من الجرائم الأخرى التي لا تمت لمجتمع الجبل الأشم بصلة.</p>
-        <p>ونخص بالذكر المدعو يوسف حسين جربوع (شيخ العقل) الذي نعتقد أنه قد خرج عن المناقب النبيلة لمنصب شيخ العقل فانضوى تحت لواء الظلم والإجرام الأسدي طوال العقد الماضي معطياً بذلك الغطاء الشرعي وضارباً بعرض الحائط المكانة الروحية السامية للمنصب الذي يشغله ومقامراً بشباب المحافظة ومستقبلهم وحياة أسرهم. فدارت الشبهات حول ممارسته لدور الراعي لبعض الجماعات الإجرامية والتغاضي عن تصرفاتهم الدنيئة بالإضافة لانعدام الشفافية فيما يخص إدارته لمال الوقف الدرزي والتبرعات الخارجية لأهالي المحافظة والإثراء غير المشروع, وذلك إرساءً لمبدأ المسائلة وأن لا قدسية لأحد وأن لا أحد بعيد عن المحاسبة.</p>
-        <p>ولذلك نطالب بما يلي:</p>
-        <ul>
-            <li> تجريد الشيخ يوسف جربوع من القيادة الروحية للموحدين الدروز وجميع الوظائف المدنية التي يشغلها (إن وجدت).</li>
-            <li>تشكيل لجنة روحية للتحقيق في الممارسات الخارجة عما يتطلبه منصب شيخ العقل.</li>
-            <li>تشكيل لجنة جنائية للتحقيق في الجرائم الجنائية التي يشتبه بتغاضيه عنها.</li>
-            <li>تشكيل لجنة اقتصادية للتحقيق في حالات الاختلاس والإثراء غير المشروع التي يشتبه بقيامه بها.</li>
-        </ul>
-    </div>
-
-    <!-- حقل الاسم الكامل -->
-    <div class="name-container">
-        <label for="name">الاسم الكامل للموقع:</label>
-        <input type="text" id="name" name="name" placeholder="أدخل اسمك الكامل" required>
-    </div>
-
-    <!-- توقيع المستخدم -->
-    <div class="signature-pad-container">
-        <canvas id="signature-pad" width="400" height="200"></canvas>
-        <div class="buttons">
-            <button id="clear">مسح التوقيع</button>
-            <button id="save">حفظ التوقيع</button>
-        </div>
-    </div>
-
-    <!-- قائمة الموقعين -->
-    <div class="signatories-list">
-        <h3>الموقعين على البيان:</h3>
-        <ul id="signatories">
-            <!-- قائمة الموقعين سيتم ملؤها هنا -->
-        </ul>
-    </div>
-
+    <!-- نفس المحتوى السابق -->
+    
     <script>
+        // إعداد Firebase
+        const firebaseConfig = {
+            apiKey: "API_KEY",
+            authDomain: "PROJECT_ID.firebaseapp.com",
+            projectId: "PROJECT_ID",
+            storageBucket: "PROJECT_ID.appspot.com",
+            messagingSenderId: "SENDER_ID",
+            appId: "APP_ID",
+            measurementId: "G-MEASUREMENT_ID"
+        };
+
+        // تهيئة Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore(app);
+
         const canvas = document.getElementById('signature-pad');
         const signaturePad = new SignaturePad(canvas);
         const signatoriesList = document.getElementById('signatories');
-        let signatories = []; // قائمة لتخزين التوقيعات
+
+        // جلب التوقيعات من Firebase عند تحميل الصفحة
+        function updateSignatoriesList() {
+            db.collection("signatories").get().then((querySnapshot) => {
+                signatoriesList.innerHTML = ''; // مسح القائمة الحالية
+                querySnapshot.forEach((doc) => {
+                    const signatory = doc.data();
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `رقم ID: <strong>${signatory.id}</strong> - <strong>${signatory.name}</strong>: <img src="${signatory.signatureData}" alt="توقيع" width="100">`;
+                    signatoriesList.appendChild(listItem);
+                });
+            });
+        }
+
+        // عرض الموقعين عند تحميل الصفحة
+        updateSignatoriesList();
 
         document.getElementById('clear').addEventListener('click', () => {
             signaturePad.clear();
@@ -202,29 +62,27 @@
                 alert("الرجاء إدخال اسمك الكامل");
             } else {
                 const signatureData = signaturePad.toDataURL();
-                const id = signatories.length + 1; // تعيين id فريد لكل توقيع
 
-                // حفظ التوقيع والاسم في القائمة
-                signatories.push({ id, name, signatureData });
+                // إنشاء كائن للتوقيع
+                const signatory = {
+                    id: Date.now(), // يمكنك استخدام أي طريقة أخرى لإنشاء ID فريد
+                    name: name,
+                    signatureData: signatureData
+                };
 
-                // تحديث القائمة في الصفحة
-                updateSignatoriesList();
+                // إضافة التوقيع إلى Firebase
+                db.collection("signatories").add(signatory).then(() => {
+                    alert("تم حفظ التوقيع بنجاح!");
+                    updateSignatoriesList(); // تحديث القائمة بعد الإضافة
+                }).catch((error) => {
+                    console.error("خطأ في حفظ التوقيع: ", error);
+                });
 
                 // مسح الحقول بعد حفظ التوقيع
                 document.getElementById('name').value = '';
                 signaturePad.clear();
             }
         });
-
-        // دالة لتحديث قائمة الموقعين
-        function updateSignatoriesList() {
-            signatoriesList.innerHTML = ''; // مسح القائمة الحالية
-            signatories.forEach((signatory) => {
-                const listItem = document.createElement('li');
-                listItem.innerHTML = `رقم ID: <strong>${signatory.id}</strong> - <strong>${signatory.name}</strong>: <img src="${signatory.signatureData}" alt="توقيع" width="100">`;
-                signatoriesList.appendChild(listItem);
-            });
-        }
     </script>
 </body>
 </html>
