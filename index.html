@@ -6,7 +6,6 @@
     <title>بيان للتوقيع</title>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
     <style>
         body {
             font-family: 'Cairo', sans-serif;
@@ -80,20 +79,24 @@
             line-height: 1.7;
         }
 
-        .signature-pad-container {
-            margin: 20px;
-            border: 2px solid #ccc;
-            padding: 10px;
-            display: inline-block;
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 10px;
+        .name-container {
+            margin-top: 20px;
         }
 
-        canvas {
-            border: 2px solid #333;
-            width: 100%;
-            height: 200px;
-            background-color: #f0f0f0;
+        .name-container input {
+            padding: 10px;
+            font-size: 16px;
+            width: 70%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            display: inline-block;
+            text-align: right;
+        }
+
+        .name-container label {
+            font-size: 16px;
+            margin-left: 10px;
         }
 
         .buttons {
@@ -122,26 +125,6 @@
 
         .buttons button:active {
             transform: scale(0.98);
-        }
-
-        .name-container {
-            margin-top: 20px;
-        }
-
-        .name-container input {
-            padding: 10px;
-            font-size: 16px;
-            width: 70%;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            margin-bottom: 10px;
-            display: inline-block;
-            text-align: right;
-        }
-
-        .name-container label {
-            font-size: 16px;
-            margin-left: 10px;
         }
 
         .signatories-list {
@@ -197,13 +180,9 @@
         <input type="text" id="name" name="name" placeholder="أدخل اسمك الكامل" required>
     </div>
 
-    <!-- توقيع المستخدم -->
-    <div class="signature-pad-container">
-        <canvas id="signature-pad" width="400" height="200"></canvas>
-        <div class="buttons">
-            <button id="clear">مسح التوقيع</button>
-            <button id="save">حفظ التوقيع</button>
-        </div>
+    <!-- زر "موافق على البيان" -->
+    <div class="buttons">
+        <button id="agree">موافق على البيان</button>
     </div>
 
     <!-- قائمة الموقعين -->
@@ -229,18 +208,16 @@
         const app = firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore(app);
 
-        const canvas = document.getElementById('signature-pad');
-        const signaturePad = new SignaturePad(canvas);
         const signatoriesList = document.getElementById('signatories');
 
-        // جلب التوقيعات من Firebase عند تحميل الصفحة
+        // جلب الموقعين من Firebase عند تحميل الصفحة
         function updateSignatoriesList() {
             db.collection("signatories").get().then((querySnapshot) => {
                 signatoriesList.innerHTML = ''; // مسح القائمة الحالية
                 querySnapshot.forEach((doc) => {
                     const signatory = doc.data();
                     const listItem = document.createElement('li');
-                    listItem.innerHTML = `رقم ID: <strong>${signatory.id}</strong> - <strong>${signatory.name}</strong>: <img src="${signatory.signatureData}" alt="توقيع" width="100">`;
+                    listItem.innerHTML = `رقم ID: <strong>${signatory.id}</strong> - <strong>${signatory.name}</strong>`;
                     signatoriesList.appendChild(listItem);
                 });
             });
@@ -249,37 +226,26 @@
         // عرض الموقعين عند تحميل الصفحة
         updateSignatoriesList();
 
-        document.getElementById('clear').addEventListener('click', () => {
-            signaturePad.clear();
-        });
-
-        document.getElementById('save').addEventListener('click', () => {
+        document.getElementById('agree').addEventListener('click', () => {
             const name = document.getElementById('name').value;
-            if (signaturePad.isEmpty()) {
-                alert("الرجاء إضافة توقيع أولاً");
-            } else if (name.trim() === '') {
+            if (name.trim() === '') {
                 alert("الرجاء إدخال اسمك الكامل");
             } else {
-                const signatureData = signaturePad.toDataURL();
-
-                // إنشاء كائن للتوقيع
                 const signatory = {
                     id: Date.now(), // يمكنك استخدام أي طريقة أخرى لإنشاء ID فريد
-                    name: name,
-                    signatureData: signatureData
+                    name: name
                 };
 
-                // إضافة التوقيع إلى Firebase
+                // إضافة الاسم إلى Firebase
                 db.collection("signatories").add(signatory).then(() => {
-                    alert("تم حفظ التوقيع بنجاح!");
+                    alert("تم حفظ الاسم بنجاح!");
                     updateSignatoriesList(); // تحديث القائمة بعد الإضافة
                 }).catch((error) => {
-                    console.error("خطأ في حفظ التوقيع: ", error);
+                    console.error("خطأ في حفظ الاسم: ", error);
                 });
 
-                // مسح الحقول بعد حفظ التوقيع
+                // مسح الحقل بعد حفظ الاسم
                 document.getElementById('name').value = '';
-                signaturePad.clear();
             }
         });
     </script>
