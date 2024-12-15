@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بيان للتوقيع</title>
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            direction: rtl;
+            text-align: center;
+        }
+
+        header {
+            background-color: #007b5e;
+            color: white;
+            padding: 20px 0;
+        }
+
+        header img {
+            width: 100px;
+            height: auto;
+        }
+
+        h1 {
+            margin-top: 20px;
+            color: #007b5e;
+        }
+
+        p {
+            padding: 0 20px;
+            text-align: justify;
+        }
+
+        form {
+            background: white;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        canvas {
+            display: block;
+            margin: 10px auto;
+        }
+
+        button {
+            background-color: #007b5e;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #005a43;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+
+        ul li {
+            background: #f1f1f1;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: right;
+        }
+
+        footer {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f1f1f1;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="data:image/jpeg;base64,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" alt="علم الثورة السورية">
+        <h1>بيان مطالبة</h1>
+    </header>
+
+    <p>
+        نحن الموقعون على هذه الوثيقة:
+نظراً للتغيير الذي طرأ على ساحة الوطن والمتمثل بسقوط الطاغية بشار الأسد ونظامه الإجرامي, نرى أنه من واجبنا استكمال هذا النصر المؤزر وتنظيف ساحة محافظة السويداء من كل أعوان النظام البائد وتقديمهم للمحاكمة دون تأخير, وكشف جرائمهم بحق أهالي الجبل وتعاونهم مع النظام على الإيقاع بأهلنا ضحايا للسجن والتعذيب والتغييب القسري والقتل التعسفي خارج إطار القانون, فضلاً عن التسبب بالطرد من الوظائف والخطف بغرض الفدية المالية وتجارة المخدرات والأعضاء وغيرها من الجرائم الأخرى التي لا تمت لمجتمع الجبل الأشم بصلة. 
+ونخص بالذكر المدعو يوسف حسين جربوع (شيخ العقل) الذي نعتقد أنه قد خرج عن المناقب النبيلة لمنصب شيخ العقل فانضوى تحت لواء الظلم والإجرام الأسدي طوال العقد الماضي معطياً بذلك الغطاء الشرعي وضارباً بعرض الحائط المكانة الروحية السامية للمنصب الذي يشغله ومقامراً بشباب المحافظة ومستقبلهم وحياة أسرهم. فدارت الشبهات حول ممارسته لدور الراعي لبعض الجماعات الإجرامية والتغاضي عن تصرفاتهم الدنيئة بالإضافة لانعدام الشفافية فيما يخص إدارته لمال الوقف الدرزي والتبرعات الخارجية لأهالي المحافظة والإثراء غير المشروع, وذلك إرساءً لمبدأ المسائلة و أن لا قدسية لأحد و أن لا أحد بعيد عن المحاسبة.
+    </p>
+
+    <p>
+        وعليه نطالب نحن أبناء سورية وأبناء طائفة الموحدين الدروز:
+        <br>1- تجريد المدعو يوسف جربوع من سلطته كشيخ عقل للموحدين الدروز وجميع الوظائف المدنية التي يشغلها إن وجدت .
+        <br>2- تشكيل لجنة روحية للتحقيق في الممارسات الخارجة عما يتطلبه منصب شيخ العقل .
+        <br>3- تشكيل لجنة جنائية للتحقيق في الجرائم الجنائية التي يشتبه بتغاضيه عنها .
+        <br>4- تشكيل لجنة أقتصادية للتحقيق في حالات الاختلاس والإثراء غير المشروع التي يشتبه بقيامه بها .
+    </p>
+
+    <form method="POST" action="/" enctype="multipart/form-data">
+        <label for="name">الاسم:</label>
+        <input type="text" id="name" name="name" required>
+        
+        <label for="signature">التوقيع:</label>
+        <canvas id="signature-pad" width="400" height="200" style="border:1px solid #000;"></canvas>
+        <br>
+        <button type="button" onclick="clearSignature()">مسح التوقيع</button>
+        <input type="hidden" id="signature" name="signature">
+        <br><br>
+        <button type="submit" onclick="saveSignature()">إرسال</button>
+    </form>
+
+    <h2>الأسماء التي وقعت:</h2>
+    <ul id="signed-names">
+        <!-- يتم تحديث القائمة ديناميكيًا -->
+    </ul>
+
+    <footer>
+        &copy; 2024 - بيان للتوقيع. جميع الحقوق محفوظة.
+    </footer>
+
+    <script>
+        const canvas = document.getElementById('signature-pad');
+        const signaturePad = new SignaturePad(canvas);
+
+        function saveSignature() {
+            if (!signaturePad.isEmpty()) {
+                const data = signaturePad.toDataURL();
+                document.getElementById('signature').value = data;
+            } else {
+                alert("الرجاء توقيع البيان قبل الإرسال.");
+            }
+        }
+
+        function clearSignature() {
+            signaturePad.clear();
+        }
+
+        const form = document.querySelector('form');
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const signedNames = document.getElementById('signed-names');
+
+            if (name && !signaturePad.isEmpty()) {
+                const li = document.createElement('li');
+                li.textContent = name;
+                signedNames.appendChild(li);
+                alert("تم تسجيل التوقيع بنجاح!");
+                form.reset();
+                signaturePad.clear();
+            } else {
+                alert("يجب إدخال الاسم والتوقيع!");
+            }
+        });
+    </script>
+</body>
+</html>
